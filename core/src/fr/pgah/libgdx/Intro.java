@@ -16,7 +16,8 @@ public class Intro extends ApplicationAdapter {
   int hauteurFenetre;
   ArrayList<Sprite> sprites;
   Sprite sprite;
-  Joueur joueur;
+  // Joueur joueur;
+  Souris souris;
   boolean gameOver;
   Texture gameOverTexture;
 
@@ -30,7 +31,8 @@ public class Intro extends ApplicationAdapter {
     gameOverTexture = new Texture("game_over.png");
 
     initialisationSprites();
-    initialiserJoueur();
+    // initialiserJoueur();
+    initialiserSouris();
   }
 
   private void initialisationSprites() {
@@ -41,8 +43,12 @@ public class Intro extends ApplicationAdapter {
     }
   }
 
-  private void initialiserJoueur() {
-    joueur = new Joueur();
+  // private void initialiserJoueur() {
+  // joueur = new Joueur();
+  // }
+
+  private void initialiserSouris() {
+    souris = new Souris();
   }
 
   @Override
@@ -66,13 +72,12 @@ public class Intro extends ApplicationAdapter {
       nSprites.majEtat();
     }
 
-    // Joueur
-    joueur.majEtat();
+    // Souris
+    souris.majEtat();
   }
 
-  private void majEtatJeu() {
-    // On vérifie si le jeu continue ou pas
-    if (joueur.estEnCollisionAvec(sprites)) {
+  private void majEtatJeu() { // On vérifie si le jeu continue ou pas
+    if (souris.estEnCollisionAvec(sprites) && souris.clicGauche()) {
       gameOver = true;
     }
   }
@@ -89,7 +94,7 @@ public class Intro extends ApplicationAdapter {
       for (Sprite dSprites : sprites) {
         dSprites.dessiner(batch);
       }
-      joueur.dessiner(batch);
+      souris.dessinerSouris(batch);
     }
     batch.end();
   }
