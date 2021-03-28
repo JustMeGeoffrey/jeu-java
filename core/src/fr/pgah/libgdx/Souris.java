@@ -18,7 +18,6 @@ public class Souris {
     int longueurEffective;
     int hauteurEffective;
     Rectangle zoneDeHit;
-    int numeroSpriteTouche;
 
     public Souris() {
         img = new Texture("toto.png");
@@ -106,5 +105,4 @@ public class Souris {
         }
         return false;
     }
-
 }

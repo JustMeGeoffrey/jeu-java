@@ -87,8 +87,8 @@ public class Joueur {
     // pour chaque sprite dans sprites
     // si le sprite touche le joueur
     // alors renvoyer vrai
-    for (Sprite sprite : sprites) {
-      if (estEnCollisionAvec(sprite)) {
+    for (int i = 0; i < sprites.size(); i++) {
+      if (estEnCollisionAvec(sprites.get(i))) {
         return true;
       }
     }

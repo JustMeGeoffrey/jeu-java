@@ -20,6 +20,7 @@ public class Intro extends ApplicationAdapter {
   Souris souris;
   boolean gameOver;
   Texture gameOverTexture;
+  Sprite indexSprite;
 
   @Override
   public void create() {
@@ -68,8 +69,8 @@ public class Intro extends ApplicationAdapter {
 
   private void majEtatProtagonistes() {
     // Sprites
-    for (Sprite nSprites : sprites) {
-      nSprites.majEtat();
+    for (Sprite sprite : sprites) {
+      sprite.majEtat();
     }
 
     // Souris
@@ -77,25 +78,23 @@ public class Intro extends ApplicationAdapter {
   }
 
   private void majEtatJeu() { // On vérifie si le jeu continue ou pas
-    if (souris.estEnCollisionAvec(sprites) && souris.clicGauche()) {
-      gameOver = true;
+    for (Sprite sprite : sprites) {
+      if (sprite.estEnCollisionAvec(souris) && souris.clicGauche()) {
+        indexSprite = sprite;
+        System.out.println("Le sprite a été sélectionné");
+      }
     }
+    sprites.remove(indexSprite);
   }
 
   private void dessiner() {
     batch.begin();
-    if (gameOver) {
-      // cet affichage GAME OVER ne se fera qu'une fois
-      // à la fin de la dernière frame au moment du "hit"
-      // puisqu'ensuite le render ne fera plus rien
-      batch.draw(gameOverTexture, 100, 100);
-    } else {
-      // Affichage "normal", jeu en cours
-      for (Sprite dSprites : sprites) {
-        dSprites.dessiner(batch);
-      }
-      souris.dessinerSouris(batch);
+    // Affichage "normal", jeu en cours
+    for (Sprite sprite : sprites) {
+      sprite.dessiner(batch);
     }
+    souris.dessinerSouris(batch);
+
     batch.end();
   }
 }

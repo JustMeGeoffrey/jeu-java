@@ -32,11 +32,10 @@ public class Sprite {
   private void initialiser(String img) {
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
-
     generateurAleatoire = new Random();
     this.img = new Texture(img);
     facteurTaille = 1;
-    vitesse = 1 + generateurAleatoire.nextInt(10);
+    vitesse = 1;
     rotation = 0;
     vitesseRotation = 5 + generateurAleatoire.nextInt(21);
     versLaDroite = generateurAleatoire.nextBoolean();
@@ -102,6 +101,21 @@ public class Sprite {
     // Coordonnées modifiées => Mise à jour de la zone de "hit"
     zoneDeHit.setPosition(coordX, coordY);
 
+  }
+
+  public boolean estEnCollisionAvec(Souris souris) {
+    if (estEnCollisionAvecLui(souris)) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean estEnCollisionAvecLui(Souris souris) {
+    if (zoneDeHit.overlaps(souris.zoneDeHit)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public void dessiner(SpriteBatch batch) {
