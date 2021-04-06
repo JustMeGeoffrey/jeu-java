@@ -1,6 +1,7 @@
 package fr.pgah.libgdx;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -21,13 +22,17 @@ public class Intro extends ApplicationAdapter {
   boolean gameOver;
   Texture gameOverTexture;
   Sprite indexSprite;
+  boolean listeSpritesVide;
+  int niveauSprite;
+  Random generateurAleatoire;
+  int idAAttribuer;
 
   @Override
   public void create() {
     batch = new SpriteBatch();
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
-
+    listeSpritesVide = false;
     gameOver = false;
     gameOverTexture = new Texture("game_over.png");
 
@@ -38,9 +43,24 @@ public class Intro extends ApplicationAdapter {
 
   private void initialisationSprites() {
     sprites = new ArrayList<Sprite>();
+    idAAttribuer = 1;
     for (int i = 0; i < NB_SPRITES; i++) {
-      sprite = new Sprite("chien.png");
-      sprites.add(sprite);
+      niveauSprite = (int) (Math.random() * ((3 - 1) + 1)) + 1;
+      if (niveauSprite == 1) {
+        sprite = new Sprite("GreatJaggi_icon.jpg");
+        sprite.setPv(niveauSprite);
+        sprites.add(sprite);
+      } else if (niveauSprite == 2) {
+        sprite = new Sprite("Seregios_icon.jpg");
+        sprite.setPv(niveauSprite);
+        sprites.add(sprite);
+      } else {
+        sprite = new Sprite("Dalamadur_icon.jpg");
+        sprite.setPv(niveauSprite);
+        sprites.add(sprite);
+      }
+      sprite.setIdSprite(idAAttribuer);
+      idAAttribuer++;
     }
   }
 
@@ -82,18 +102,36 @@ public class Intro extends ApplicationAdapter {
       if (sprite.estEnCollisionAvec(souris) && souris.clicGauche()) {
         indexSprite = sprite;
         System.out.println("Le sprite a été sélectionné");
+        sprite.reduirePv();
+        break;
       }
     }
-    sprites.remove(indexSprite);
+
+    for (Sprite sprite : sprites) {
+      if (sprite.getPv() == 0) {
+        sprites.remove(indexSprite);
+        break;
+      }
+    }
+
+    if (sprites.isEmpty()) {
+      gameOver = true;
+    }
+
   }
 
   private void dessiner() {
     batch.begin();
-    // Affichage "normal", jeu en cours
-    for (Sprite sprite : sprites) {
-      sprite.dessiner(batch);
+    if (gameOver == true) {
+      batch.draw(gameOverTexture, 0, 0);
     }
-    souris.dessinerSouris(batch);
+    if (gameOver == false) {
+      // Affichage "normal", jeu en cours
+      for (Sprite sprite : sprites) {
+        sprite.dessiner(batch);
+      }
+      souris.dessinerSouris(batch);
+    }
 
     batch.end();
   }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Sprite {
-
+  int idSprite;
   int longueurFenetre;
   int hauteurFenetre;
   Texture img;
@@ -23,6 +23,7 @@ public class Sprite {
   int hauteurEffective;
   Random generateurAleatoire;
   Rectangle zoneDeHit;
+  int pv;
 
   public Sprite(String img) {
     // On pourrait aussi copier tout le contenu de la méthode ici
@@ -30,6 +31,8 @@ public class Sprite {
   }
 
   private void initialiser(String img) {
+    idSprite = 0;
+    pv = 1;
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
     generateurAleatoire = new Random();
@@ -37,7 +40,7 @@ public class Sprite {
     facteurTaille = 1;
     vitesse = 1;
     rotation = 0;
-    vitesseRotation = 5 + generateurAleatoire.nextInt(21);
+    vitesseRotation = 10;
     versLaDroite = generateurAleatoire.nextBoolean();
     versLeHaut = generateurAleatoire.nextBoolean();
     longueurEffective = (int) (this.img.getWidth() * facteurTaille);
@@ -45,6 +48,26 @@ public class Sprite {
     coordX = generateurAleatoire.nextInt(longueurFenetre - longueurEffective);
     coordY = generateurAleatoire.nextInt(hauteurFenetre - hauteurEffective);
     zoneDeHit = new Rectangle(coordX, coordY, longueurEffective, hauteurEffective);
+  }
+
+  public int getIdSprite() {
+    return this.idSprite;
+  }
+
+  public void setIdSprite(int affecterIdSprite) {
+    this.idSprite = affecterIdSprite;
+  }
+
+  public void setPv(int affecterPv) {
+    this.pv = affecterPv;
+  }
+
+  public int getPv() {
+    return this.pv;
+  }
+
+  public void reduirePv() {
+    this.pv -= 1;
   }
 
   public void majEtat() {
